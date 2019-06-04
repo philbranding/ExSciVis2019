@@ -94,16 +94,29 @@ void main()
 #endif 
     
 #if TASK == 11
+
+     vec4 avg_val = vec4(0.0, 0.0, 0.0, 1.0);
+
     // the traversal loop,
     // termination when the sampling position is outside volume boundarys
     // another termination condition for early ray termination is added
+    // interate through all the N samples and added them and divide by N to get the avarage 
+    //count all the number of sampling_pos
+
+
+    int sampling_pos_count = 0;
+    
     while (inside_volume)
     {      
         // get sample
         float s = get_sample_data(sampling_pos);
+        
+        //add all sampling position while in the loop
+        sampling_pos_count++;
 
-        // dummy code
-        dst = vec4(sampling_pos, 1.0);
+
+        vec4 color = texture(transfer_texture, vec2(s, s));
+        avg_val += color; 
         
         // increment the ray sampling position
         sampling_pos  += ray_increment;
@@ -111,7 +124,20 @@ void main()
         // update the loop termination condition
         inside_volume  = inside_volume_bounds(sampling_pos);
     }
+
+    // check if the position is greater than 0 to avoid dividing by zero
+    if (sampling_pos_count > 0) {
+
+        //divide the sum of the sample count and divide by the number of the sampling positions
+        avg_val /= sampling_pos_count;
+    }
+
+    // render the result 
+    dst = avg_val; 
+
 #endif
+
+
     
 #if TASK == 12 || TASK == 13
     // the traversal loop,
