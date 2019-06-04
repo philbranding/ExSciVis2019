@@ -143,43 +143,16 @@ void main()
     // the traversal loop,
     // termination when the sampling position is outside volume boundarys
     // another termination condition for early ray termination is added
-
-
     while (inside_volume)
     {
         // get sample
-        float s = get_sample_data(sampling_pos);    
-
-        if ( s >= iso_value)
-        {
-            dst = vec4(1.0,0.0,0.0, 1.0);
-        }
-        break;
-
+        float s = get_sample_data(sampling_pos);
+        if (s >= iso_value){
+        dst = vec4(light_diffuse_color, 1.0);
+    }
         // increment the ray sampling position
         sampling_pos += ray_increment;
 #if TASK == 13 // Binary Search
-
-
-        //vec3 prev = samplings.pos -ray.increment;
-        //vec3 now = sampling.pos;
-        //for (int i = 0; i < 64; ++i)
-       /* {
-            vec3 mid = (prev + now)/2.0;
-        float s_mid0 sample(mid);
-        if (s mid < iso_value)
-        {
-            prev = mid;
-
-        }
-        else {
-            now = mi;
-        }
-    }
-
-*/
-
-
         IMPLEMENT;
 #endif
 #if ENABLE_LIGHTNING == 1 // Add Shading
