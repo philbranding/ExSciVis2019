@@ -153,10 +153,33 @@ void main()
         // increment the ray sampling position
         sampling_pos += ray_increment;
 #if TASK == 13 // Binary Search
-        IMPLEMENT;
+
+vec3 prev = sampling_pos - ray_increment;
+vec3 now = sampling_pos;
+for (int i = 0; i < 64; ++i)
+        {
+            vec3 mid = (prev + now)/2.0;
+        float s_mid = get_sample_data(mid);
+        if (s_mid < iso_value)
+        {
+            prev = mid;
+
+        }
+        else {
+            now = mid;
+        }
+    }
+
 #endif
+
+
+
 #if ENABLE_LIGHTNING == 1 // Add Shading
-        IMPLEMENTLIGHT;
+        
+    
+
+
+
 #if ENABLE_SHADOWING == 1 // Add Shadows
         IMPLEMENTSHADOW;
 #endif
